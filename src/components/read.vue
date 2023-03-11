@@ -5,7 +5,7 @@
       activeIndex2=2
       :searchPage='searchPage'
       ></mymenu>
-      <el-card id="left" >
+      <el-card class="left" >
         <nav 
         v-for="classifer in classifiers" 
         v-bind:key="classifer.id" 
@@ -14,37 +14,43 @@
         <el-link @click="setTag(classifer.tag)" :underline="false"> {{ classifer.tag }} </el-link> 
         </nav>
       </el-card>
-      <div class="block">
-        <div class="rightadd">
+  <div class="right">
+        <div class="right-add add">
           <el-carousel height="200px" box-shadow>
-      <el-carousel-item >
-        <img src="../assets/ad1.jpg" alt="">
-      </el-carousel-item>
-      <el-carousel-item >
-        <img src="../assets/ad2.jpg" alt="">
-      </el-carousel-item>
-      <el-carousel-item >
-        <img src="../assets/ad3.jpg" alt="">
-       </el-carousel-item>
-      </el-carousel>
+            <el-carousel-item >
+              <img src="../assets/ad1.jpg" alt="">
+            </el-carousel-item>
+            <el-carousel-item >
+              <img src="../assets/ad2.jpg" alt="">
+            </el-carousel-item>
+            <el-carousel-item >
+              <img src="../assets/ad3.jpg" alt="">
+            </el-carousel-item>
+          </el-carousel>
         </div>
-      <div class="leftadd">
+      <div class="left-add add">
         <img src="../assets/ad4.jpg" alt="">
       </div>
-  </div>
-  
-  <div id="right">
-    <el-card id="article"   v-for="page in pages" v-bind:key="page.id" >
-      <span id="tag" >{{ page.tag }}</span>
-      <span id="topic"></span><h2 @click="toPage(page.id)">{{ page.topic }} </h2>
-      <span id="author">作者：{{ page.name }}</span>
-      <span id="content"><p> {{ page.content }}</p></span> 
+    <el-card class="page-card" v-for="page in pages" v-bind:key="page.id" >
+      <div>
+        <span >
+          {{ page.tag }}
+        </span>
+        <h2 @click="toPage(page.id)">
+          {{ page.topic }}
+        </h2>
+      </div>
+      <div >
+        <span >
+          作者：{{ page.author }}
+        </span>
+        <span >
+          {{ page.content }}
+        </span>
       <!-- 因为返回的时间是字符串，为了显示前面的年月，可以暂时使用字符串函数截取 -->
-      <span id="time">发布时间：{{ page.create_time.slice(0,10)}}</span>
+      <span >发布时间：{{ page.createTime.slice(0,10)}}</span>
+      </div>
     </el-card>
-    <!-- <span id="egpage">
-      <a href="http://localhost:8080/eg-page" >文章详情示例</a>
-    </span> -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -86,7 +92,7 @@ export default {
           {id:'017',tag:'计算机基础'}
         ],
         currentPage3: 1,
-         pages:{},
+         pages:[],
          num: 1,
          currentPage:1,
          time:''
@@ -140,7 +146,7 @@ export default {
             
             // console.log(num)
             this.pages = res.data.data;
-            // console.log(res.data)
+            console.log(res.data.data)          
             // console.log(this.pages)
           }
         }).catch((err) => {
@@ -177,10 +183,6 @@ export default {
 
 <style scoped>
 @import url("//unpkg.com/element-ui@2.15.6/lib/theme-chalk/index.css");
-#app{
-    margin: 0;
-    padding: 0;
-}
 .el-card{
   margin-top: 20px;
 }
@@ -192,32 +194,27 @@ export default {
     background-color: #fafbfb;
     text-decoration:none;
 }
-#logo{
+.logo{
   font-family: "隶书";
   font-size: 30px;
   color: rgb(71, 57, 253);
 }
-#left{
+.left{
   width: 120px;
   margin-left: 60px;
   position: absolute;
 }
-#right{
+.right .page-card{
   margin-top: 20px;
   margin-left: 30px;
-  width: 750px;
+  width: 80vw;
 }
-#article{
-  width: 900px;
-  margin-left: 180px;
-  margin-top: 10px;
-}
+
 nav{
     padding: 15px;
     margin-left: -20px;
     width: 100px;
     height: 30px;
-    font-size: 40px;
     font-weight: 600;
 }
 nav :hover{
@@ -225,69 +222,32 @@ nav :hover{
   padding: 5px;
   background-color: rgb(220, 214, 241);
 }
-.block{
-  margin-left: 20px;
-  display: flex;
-  justify-content: left;
+.right-add{
+  width: 500px;
+  height: 200px;
 }
-  .rightadd{
-    display: inline-flexbox;
-    width: 500px;
-    height: 200px;
-    margin-left: 180px;
-    margin-top: 20px;
+.add {
+  margin-top: 20px;
+  height: 200px;
+  margin-left: 20px;
+}
+
+.add img {
+  width: 100%;
+  display: inline-block;
+}
+.left-add{
+  width: 300px;
+  
   }
-  .leftadd{
-    display: inline-flexbox;
-    margin-top: 20px;
-    width: 300px;
-    height: 200px;
-    margin-left: 20px;
-    }
-  .block img{
-    display: inline;
-    height: 100%;
-  }
-  #author{
-    display: inline-flex;
-    width: 180px;
-    margin-left: 0px;
-    height: 30px;
-    font-size: 18px;
-    color: darkslateblue;
-  }
-  #tag{  
-    display: flex;
-    position: absolute;
-    padding: 6px;
-    margin-top: -10px;
-    background-color: rgb(32, 73, 184);
-    color: floralwhite;
-    border-radius: 8px;
-  }
-  #content{
-    display: inline-flex;
-    margin-top: -12px;
-    color: rgb(122, 122, 128);
-    height:40px;
-    width:480px;
-    overflow: hidden;
-  }
-  #topic{
-    display: flex;
-    margin-top: -35px;
-  }
-  #time{
-    display: inline-flex;
-    color: lightslategrey;
-  }
-  #egpage a{
-    text-decoration: none;
-    color: blue;
-  }
-  #egpage{
-    margin-top: 20px;
-    display: block;
-    margin-left: 500px;
-  }
+.block img{
+  display: inline;
+  height: 100%;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 180px;
+}
 </style>

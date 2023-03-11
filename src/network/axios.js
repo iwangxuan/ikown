@@ -1,11 +1,21 @@
+/*
+ * @Author: Wang Xuan
+ * @Date: 2021-10-06 00:05:03
+ * @LastEditTime: 2022-11-13 23:26:47
+ */
 import axios from 'axios'
 var service = axios.create({
     timeout: 10000,
-    baseURL: 'http://localhost:8888/knowledgeStar'
+    baseURL: 'http://localhost:8888'
 })
 
 
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+service.defaults.headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': '*',
+    'Content-Type': 'application/json;charset=utf-8'
+}
 
 service.interceptors.request.use(
     config => {

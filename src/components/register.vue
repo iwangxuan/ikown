@@ -7,10 +7,10 @@
     <el-card class="register1">
       <el-form  status-icon  label-width="80px"   class="demo-ruleForm">
         <el-form-item label="用户名">
-          <el-input v-model="user"></el-input>
+          <el-input v-model="userName"></el-input>
         </el-form-item>
         <el-form-item label="性别">
-           <el-radio-group v-model="radio">
+           <el-radio-group v-model="gender">
           <el-radio :label="1">男</el-radio>
           <el-radio :label="2">女</el-radio>
           <el-radio :label="3">保密</el-radio>
@@ -18,14 +18,14 @@
         </el-form-item>
         <el-form-item label="您的生日">
           <el-col >
-            <el-date-picker  type="date" placeholder="选择日期" v-model="date" style="width: 300px;"></el-date-picker>
+            <el-date-picker  type="date" placeholder="选择日期" v-model="birthday"   style="width: 300px;"></el-date-picker>
           </el-col>
         </el-form-item>
           <el-form-item label="密码" prop="pass">
-    <el-input type="password" v-model="pwd" autocomplete="off" show-password></el-input>
+    <el-input type="password" v-model="password" autocomplete="off" show-password></el-input>
     </el-form-item>
     <el-form-item label="确认密码" prop="checkPass">
-    <el-input type="password" v-model="checkpwd" autocomplete="off" show-password></el-input>
+    <el-input type="password" v-model="checkPassword" autocomplete="off" show-password></el-input>
     </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="register()" @keydown.enter="register()">注册</el-button>
@@ -40,58 +40,57 @@
 export default {
     data() {
       return {
-          number: '',
-          date: '',
-          type: [],
-          resource: '',
-          radio:1,
-          desc: '',
-          checkpwd:'',
-        user: '',
-        pwd:'',
+        number: '',
+        birthday: '',
+        type: [],
+        resource: '',
+        gender:1,
+        desc: '',
+        checkPassword:'',
+        userName: '',
+        password:'',
         age:'18',
-    }
+      }
     },
     methods: {
-        res(){
-
-        },
-        register(){
-          if(!this.user){
+      register() {
+          if(!this.userName){
             return this.$message.warning('用户名不能为空！');
           };
-          if(!this.pwd){
+          if(!this.password){
             return this.$message.warning('密码不能为空！');
           };
-          if(this.pwd.length<6){
+          if(this.password.length<6){
             return this.$message.warning('密码最好不要短于6位哦~')
           }
-          if(this.pwd!==this.checkpwd){
+          if(this.password!==this.checkPassword){
               return this.$message.error('两次输入的密码不一致！！！');
           };
           this.$axios({
-              method: "post",
-              url: "/user/register",
-              data: {
-                name: this.user,
-                pwd: this.pwd,
-              },
-            })
-              .then((res) => {
-                console.log(res.data);
-                if (res.status == 200) {
-                  let data = res.data;
-                  this.$message.success(data.msg);
-                  this.$router.push("/login");
-                } else {
-                  this.user = ''
-                  this.pwd = ''
-                  return this.$message.error(res.data.msg);
-                }
-              })
-              .catch((err) => err);
-          },
-          
+            method: "post",
+            url: "/users/register",
+            data: {
+              userName: this.userName,
+              password: this.password,
+              gender: this.gender,
+              birthday: this.birthday
+            },
+          }).then(({data,status }) => {
+            if (status == 200) {
+              this.$message.success(data.message);
+              this.$router.push("/login");
+            } else {
+              this.userName = ''
+              this.password = ''
+              this.checkPassword = ''
+              this.birthday = ''
+              this.gender = 0
+              return this.$message.error(data.message);
+            }
+          }).catch((err) => {
+            console.log(err)
+        });
+      },
    }
   }
 </script>

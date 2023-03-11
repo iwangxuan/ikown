@@ -10,7 +10,6 @@ import userfans from '@/components/userfans.vue'
 import recent from '@/components/recent.vue'
 import mypage from '@/components/mypage.vue'
 import likes from '@/components/likes.vue'
-import sub from '@/components/sub.vue'
 import collect from '@/components/collect.vue'
 import userinfo1 from '@/components/userinfo1.vue'
 import userinfo2 from '@/components/userinfo2.vue'
@@ -48,7 +47,6 @@ export default new Router({
         {path:'userfous',component:userfous},
         {path:'recent',component:recent},
         {path:'mypage',component:mypage},
-        {path:'sub',component:sub},
         {path:'likes',component:likes},
         {path:'collect',component:collect}
       ],  
